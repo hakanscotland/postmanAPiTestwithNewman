@@ -1,0 +1,39 @@
+{
+	"id": "9634879e-ee5d-4e80-91c2-10cae6600ccd",
+	"name": "Contact_List",
+	"values": [
+		{
+			"key": "firstName",
+			"value": "Josue",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "lastName",
+			"value": "Hodja",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "contactId",
+			"value": "6304c1f9e48c43062f423c9a",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "email",
+			"value": "jdoe@fake.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "city",
+			"value": "Heredia",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2022-08-24T13:26:00.163Z",
+	"_postman_exported_using": "Postman/9.28.4"
+}
