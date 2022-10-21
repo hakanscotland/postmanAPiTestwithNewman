@@ -22,17 +22,20 @@ newman.run({
             // omitResponseBodies: true,
             // hideRequestBody: ["Login"],
             // hideResponseBody: ["Auth Request"],
-            // showEnvironmentData: true,
+             showEnvironmentData: true,
             // skipEnvironmentVars: ["API_KEY"],
             // showGlobalData: true,
             // skipGlobalVars: ["API_TOKEN"],
             // skipSensitiveData: true,
-            // showMarkdownLinks: true,
-            // showFolderDescription: true,
+             showMarkdownLinks: true,
+             showFolderDescription: true,
             // timezone: "Australia/Sydney",
             // skipFolders: "folder name with space,folderWithoutSpace",
             // skipRequests: "request name with space,requestNameWithoutSpace",
-            // displayProgressBar: true
+            displayProgressBar: true
         }
     }
+    }, function (err) {
+    if (err) { throw err; }
+    console.log('collection run complete!');
 });

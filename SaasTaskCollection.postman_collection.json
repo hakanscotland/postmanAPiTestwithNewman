@@ -1,0 +1,499 @@
+{
+	"info": {
+		"_postman_id": "3690c8eb-b740-402b-947e-251c29bfc15b",
+		"name": "SaasTaskCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18551292"
+	},
+	"item": [
+		{
+			"name": "1a ) Attempt to login via a POST request to $BASE_URL/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//1a. Verify a 200 response when the correct data is provided to the API",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body matches Token Key\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"QpwL5tke4Pnpja7X4\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"cityslicka\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/login",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1b ) Attempt to login via a POST request to $BASE_URL/login with incomplete data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//1b. Verify a 400 response when incomplete data is provided, password is left blank",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Body matches Bad Request\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Bad Request\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2a ) Verify a 200 response and the report on the number of users returned",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//2a. Verify a 200 response and the report on the number of users returned",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Number of users is greater than zero \", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.total).to.greaterThan(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"cityslicka\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/users?per_page=12",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "per_page",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3a) Verify a 200 response and correctly structured JSON is data returned for a specific, valid user.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//3a) Verify a 200 response and correctly structured JSON is data returned for a specific, valid user.",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Get Valid User and Correct Data Match\", function() {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.id).equal(1);",
+							"    pm.expect(jsonData.data.email).equal(\"george.bluth@reqres.in\");",
+							"    pm.expect(jsonData.data.first_name).equal(\"George\");",
+							"    pm.expect(jsonData.data.last_name).equal(\"Bluth\");",
+							"    pm.expect(jsonData.data.avatar).equal(\"https://reqres.in/img/faces/1-image.jpg\");",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"cityslicka\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/users/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3b) Using GET method to call information for non exist id number with 404 response code",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//3b) Using GET method to call information for non exist id number with 404 response code",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Json body is empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).empty",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"cityslicka\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/users/23",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4a) POST to $BASE_URL/users to create a new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//4a. Verify a 201 response is given with the expected JSON attributes",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Added new users Correct Data Match\", function() {",
+							"    var jsonData = pm.response.json();",
+							"",
+							"    pm.expect(jsonData.name).equal(\"John\");",
+							"    pm.expect(jsonData.last_name).equal(\"Doe\");",
+							"    pm.expect(jsonData.job).equal(\"Lead\");",
+							"    pm.expect(jsonData.id).not.empty",
+							"    pm.expect(jsonData.createdAt).not.empty;",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"email\": \"john.doe@reqres.in\",\n    \"job\": \"Lead\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5a) Delete a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//5a. Verify a 204 response with no body",
+							"",
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"    pm.test(\"Validate the Body is Null\", function () {",
+							"        var jsonObject = xml2Json(responseBody);",
+							"     pm.expect(jsonObject).equal(null);   ",
+							"    });",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/users/13",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"13"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserRegister_Succesfully",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Body matches Token Key\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"QpwL5tke4Pnpja7X4\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"pistol\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"register"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://reqres.in",
+			"type": "string"
+		},
+		{
+			"key": "uri_users",
+			"value": "users",
+			"type": "string"
+		},
+		{
+			"key": "testUserName",
+			"value": "TestName",
+			"type": "string"
+		},
+		{
+			"key": "testUserJob",
+			"value": "SDET",
+			"type": "string"
+		},
+		{
+			"key": "testUserId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "testUserEmail",
+			"value": "eve.holt@reqres.in",
+			"type": "string"
+		},
+		{
+			"key": "testUserFirstName",
+			"value": "George",
+			"type": "string"
+		},
+		{
+			"key": "testUserLastName",
+			"value": "Bluth",
+			"type": "string"
+		},
+		{
+			"key": "testUserAvatar",
+			"value": "https://reqres.in/img/faces/1-image.jpg",
+			"type": "string"
+		},
+		{
+			"key": "testUserPassword",
+			"value": "cityslicka",
+			"type": "string"
+		}
+	]
+}
